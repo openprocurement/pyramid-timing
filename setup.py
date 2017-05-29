@@ -10,11 +10,11 @@ requires = [
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'timing_tween = timingtween.timingtween.tween:includeme'
+        'pyramid_timing = pyramidtiming.pyramidtiming.tween:includeme'
     ]
 }
 
-setup(name='timingtween',
+setup(name='pyramidtiming',
       version=version,
       description="",
       long_description=open("README.md").read(),
@@ -29,7 +29,7 @@ setup(name='timingtween',
       url='',
       license='Apache License 2.0',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['timingtween'],
+      namespace_packages=['pyramidtiming'],
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,

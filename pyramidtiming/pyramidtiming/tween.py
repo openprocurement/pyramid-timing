@@ -52,6 +52,7 @@ def timing_tween_factory(handler, registry):
 
 
 def includeme(config):
-    if asbool(registry.settings.get('do_timing')):
+    if asbool(config.registry.settings.get('do_timing')):
         log.info('Init timing tween factory')
-        config.add_tween('timingtween.timingtween.tween.timing_tween_factory')
+        config.add_tween(
+            'pyramidtiming.pyramidtiming.tween.timing_tween_factory')
