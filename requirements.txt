@@ -1,0 +1,6 @@
+setuptools == 7.0
+pyramid
+nose
+coverage
+python-coveralls
+mock

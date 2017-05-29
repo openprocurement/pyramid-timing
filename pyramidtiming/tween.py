@@ -15,7 +15,7 @@ def timing_tween_factory(handler, registry):
         except:
             delta = time.time() - start
             log_info = {
-                'REQUEST_PROCESS_TIME': delta,
+                'REQUEST_PROCESS_TIME': round(delta, 4),
                 'REQUEST_METHOD': request.method,
                 'RESPONSE_CODE': 'exc'
             }
@@ -38,7 +38,7 @@ def timing_tween_factory(handler, registry):
             else:
                 range_code = 'xxx'
             log_info = {
-                'REQUEST_PROCESS_TIME': delta,
+                'REQUEST_PROCESS_TIME': round(delta, 4),
                 'REQUEST_METHOD': request.method,
                 'RESPONSE_CODE': response.status_code,
                 'RANGE_CODE': range_code

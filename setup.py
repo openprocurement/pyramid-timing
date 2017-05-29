@@ -3,14 +3,21 @@ import os
 
 version = '0.1dev'
 
+test_requires = [
+    'mock',
+    'nose',
+    'python-coveralls',
+    'coverage'
+]
+
 requires = [
     'setuptools',
     'pyramid',
-]
+] + test_requires
 
 entry_points = {
     'openprocurement.api.plugins': [
-        'pyramid_timing = pyramidtiming.pyramidtiming.tween:includeme'
+        'pyramid_timing = pyramidtiming.tween:includeme'
     ]
 }
 
@@ -22,7 +29,7 @@ setup(name='pyramidtiming',
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
         "Programming Language :: Python",
-        ],
+      ],
       keywords='',
       author='Quintagroup, Ltd.',
       author_email='info@quintagroup.com',

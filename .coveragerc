@@ -1,0 +1,10 @@
+[run]
+source = pyramidtiming
+
+[report]
+omit =
+    pyramidtiming/__init__.py
+    pyramidtiming/pyramidtiming/__init__.py
+    *tests*
+    *.env*
+show_missing = True
