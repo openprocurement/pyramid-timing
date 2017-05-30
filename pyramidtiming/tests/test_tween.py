@@ -11,14 +11,20 @@ class TestPyramidTimingIncludme(unittest.TestCase):
         config = mock.Mock()
         config.registry.settings = {}
 
+        config.registry.settings = {'pyramid_timing': False}
+
         includeme(config)
         self.assertEqual(config.add_tween.call_count, 0)
 
-        config.registry.settings = {'do_timing': True}
-
+        config.registry.settings = {'pyramid_timing': True}
         includeme(config)
         config.add_tween.assert_called_once_with(
-            'pyramidtiming.pyramidtiming.tween.timing_tween_factory')
+            'pyramidtiming.tween.timing_tween_factory')
+
+        del config.registry.settings['pyramid_timing']
+        includeme(config)
+        self.assertEqual(config.add_tween.call_count, 2)
+
 
 
 class TestPyramidTimingFactory(unittest.TestCase):
