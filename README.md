@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/openprocurement/pyramid-timing.svg?branch=master)](https://travis-ci.org/openprocurement/pyramid-timing)
+[![Coverage Status](https://coveralls.io/repos/github/openprocurement/pyramid-timing/badge.svg)](https://coveralls.io/github/openprocurement/pyramid-timing)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # pyramid-timing
 
 Timing tween for measure request process time as pyramid plugin.
@@ -12,7 +16,7 @@ pip install pyramidtiming
 or
 
 ```shell
-git clone https://VDigitall@gitlab.quintagroup.com/VDigitall/pyramid-timing-tween.git
+git clone https://github.com/openprocurement/pyramid-timing.git
 cd pyramid-timing
 pip install .
 ```
