@@ -7,7 +7,6 @@ test_requires = [
     'mock',
     'nose',
     'python-coveralls',
-    'coverage'
 ]
 
 requires = [
