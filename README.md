@@ -23,12 +23,12 @@ pip install .
 
 ### How to use
 
-In application settings add options `do_timing = true`
-
 ```python
 from pyramid.config import Configurator
 from pyramidtiming.tween import includeme as include_tween
 config = Configurator()
-config.settings.do_timing = True
 include_tween(config)
 ```
+For disable pyramid-timing you can remove plugin or set option `pyramid_timing = false`
+
+`config.settings.pyramid_timing = False`
