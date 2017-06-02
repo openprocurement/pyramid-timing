@@ -7,12 +7,14 @@ test_requires = [
     'mock',
     'nose',
     'python-coveralls',
+    'webtest',
 ]
 
 requires = [
     'setuptools',
     'pyramid',
-] + test_requires
+    'webob',
+]
 
 entry_points = {
     'openprocurement.api.plugins': [
@@ -39,5 +41,6 @@ setup(name='pyramidtiming',
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
+      test_requires=test_requires,
       entry_points=entry_points
       )

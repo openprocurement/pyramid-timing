@@ -32,3 +32,14 @@ include_tween(config)
 For disable pyramid-timing you can remove plugin or set option `pyramid_timing = false`
 
 `config.settings.pyramid_timing = False`
+
+
+### Use as middleware
+
+```
+[pipeline:main]
+pipeline = request_metrics
+
+[filter:request_metrics]
+paste.filter_factory = pyramidtiming.tween:factory
+```
