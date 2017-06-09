@@ -1,5 +1,7 @@
 setuptools == 7.0
 pyramid
+flask
+flask-testing
 nose
 coverage
 python-coveralls
