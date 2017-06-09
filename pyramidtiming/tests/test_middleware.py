@@ -4,8 +4,11 @@ import mock
 import json
 import webob
 import webtest
+from flask import Flask, g, request
+from flask_testing import TestCase
 from webob.dec import wsgify
-from pyramidtiming.tween import get_request_metrics, factory
+from pyramidtiming.tween import get_request_metrics, factory, setup_middleware
+from pyramidtiming.utils import before_request, after_request
 
 
 def app(request, status_code):
@@ -60,3 +63,41 @@ class TestPyramidTimingMiddleware(unittest.TestCase):
     def test_factory(self):
         obj = factory({})
         self.assertEqual(obj.middleware.func_name, 'get_request_metrics')
+
+
+class TestFlaskTimingMiddlewareWOBeforeRequest(TestCase):
+
+    def create_app(self):
+        app = Flask(__name__)
+        app.config['TESTING'] = True
+        app.after_request(after_request)
+        self.webapp = app.test_client()
+        return app
+
+    def test_after_request(self):
+        with self.app.app_context():
+            self.webapp.get('/')
+            self.assertEqual(hasattr(g, 'flask_request_start_time'), False)
+
+
+class TestFlaskTimingMiddleware(TestCase):
+
+    def create_app(self):
+        app = Flask(__name__)
+        app.config['TESTING'] = True
+        setup_middleware(app)
+        self.webapp = app.test_client()
+        return app
+
+    @mock.patch('pyramidtiming.utils.time')
+    def test_before_request(self, mock_time):
+        mock_time.time.return_value = 1
+        with self.app.app_context():
+            resp = self.webapp.get('/')
+            self.assertEqual(g.flask_request_start_time, 1)
+
+    def test_setup_middleware(self):
+        app = mock.Mock(name='app')
+        setup_middleware(app)
+        app.before_request.assert_called_once_with(before_request)
+        app.after_request.assert_called_once_with(after_request)
