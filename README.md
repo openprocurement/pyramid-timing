@@ -10,7 +10,7 @@ Write to log `request processing time`, `request method` and `response status co
 ### Installation
 
 ```shell
-pip install pyramidtiming
+pip install pyramidtiming [flask, pyramid, test]
 ```
 
 or
@@ -18,7 +18,7 @@ or
 ```shell
 git clone https://github.com/openprocurement/pyramid-timing.git
 cd pyramid-timing
-pip install .
+pip install .[flask, pyramid, test]
 ```
 
 ### How to use
@@ -32,3 +32,24 @@ include_tween(config)
 For disable pyramid-timing you can remove plugin or set option `pyramid_timing = false`
 
 `config.settings.pyramid_timing = False`
+
+
+### Use as middleware
+
+```
+[pipeline:main]
+pipeline = request_metrics
+
+[filter:request_metrics]
+paste.filter_factory = pyramidtiming.tween:factory
+```
+
+### Use as flask middleware via `app.before_request` and `app.after_request`
+
+```python
+from flask import Flask, request, g
+from pyramidtiming.tween import setup_middleware
+
+app = Flask(__name__)
+setup_middleware(app)
+```

@@ -26,7 +26,6 @@ class TestPyramidTimingIncludme(unittest.TestCase):
         self.assertEqual(config.add_tween.call_count, 2)
 
 
-
 class TestPyramidTimingFactory(unittest.TestCase):
 
     def setUp(self):
@@ -60,12 +59,12 @@ class TestPyramidTween(unittest.TestCase):
     def _call(self):
         return self.tween(self.request)
 
-    @mock.patch('pyramidtiming.tween.time')
+    @mock.patch('pyramidtiming.utils.time')
     def test_tween(self, mock_time):
         mock_time.side_effect = [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2]
         self.response.status_code = 200
         self.request.method = 'GET'
-        with mock.patch('pyramidtiming.tween.log') as log:
+        with mock.patch('pyramidtiming.utils.log') as log:
             self._call()
         log.debug.assert_called_with(
             'The request {} took 1.0 seconds with status code {}'.format(
@@ -78,7 +77,7 @@ class TestPyramidTween(unittest.TestCase):
 
         self.request.method = 'POST'
         self.response.status_code = 302
-        with mock.patch('pyramidtiming.tween.log') as log:
+        with mock.patch('pyramidtiming.utils.log') as log:
             self._call()
         log.debug.assert_called_with(
             'The request {} took 1.0 seconds with status code {}'.format(
@@ -91,7 +90,7 @@ class TestPyramidTween(unittest.TestCase):
 
         self.request.method = 'PUT'
         self.response.status_code = 403
-        with mock.patch('pyramidtiming.tween.log') as log:
+        with mock.patch('pyramidtiming.utils.log') as log:
             self._call()
         log.debug.assert_called_with(
             'The request {} took 1.0 seconds with status code {}'.format(
@@ -104,7 +103,7 @@ class TestPyramidTween(unittest.TestCase):
 
         self.request.method = 'PATCH'
         self.response.status_code = 501
-        with mock.patch('pyramidtiming.tween.log') as log:
+        with mock.patch('pyramidtiming.utils.log') as log:
             self._call()
         log.debug.assert_called_with(
             'The request {} took 1.0 seconds with status code {}'.format(
@@ -117,7 +116,7 @@ class TestPyramidTween(unittest.TestCase):
 
         self.request.method = 'DELETE'
         self.response.status_code = 601
-        with mock.patch('pyramidtiming.tween.log') as log:
+        with mock.patch('pyramidtiming.utils.log') as log:
             self._call()
         log.debug.assert_called_with(
             'The request {} took 1.0 seconds with status code {}'.format(
@@ -126,14 +125,14 @@ class TestPyramidTween(unittest.TestCase):
                    'REQUEST_METHOD': self.request.method,
                    'RANGE_CODE': 'xxx', 'REQUEST_PROCESS_TIME': 1.0})
 
-    @mock.patch('pyramidtiming.tween.time')
+    @mock.patch('pyramidtiming.utils.time')
     def test_tween_exception(self, mock_time):
         mock_time.side_effect = [1, 2]
 
         self.response.status_code = 200
         self.handler.side_effect = Exception('test')
         self.request.method = 'GET'
-        with mock.patch('pyramidtiming.tween.log') as log:
+        with mock.patch('pyramidtiming.utils.log') as log:
             with self.assertRaises(Exception) as e:
                 self._call()
             self.assertEqual(e.exception.message, 'test')

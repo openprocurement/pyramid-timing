@@ -6,13 +6,21 @@ version = '0.1dev'
 test_requires = [
     'mock',
     'nose',
+    'flask-testing',
     'python-coveralls',
+    'webtest',
 ]
 
 requires = [
     'setuptools',
-    'pyramid',
-] + test_requires
+    'webob',
+]
+
+extras_require = {
+    'pyramid': ['pyramid',] + requires,
+    'flask': ['flask',] + requires,
+    'test': test_requires + requires
+}
 
 entry_points = {
     'openprocurement.api.plugins': [
@@ -39,5 +47,6 @@ setup(name='pyramidtiming',
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
+      extras_require=extras_require,
       entry_points=entry_points
       )

@@ -1,5 +1,7 @@
-import time
 from pyramid.settings import asbool
+from .utils import get_response
+from .flask_middleware import before_request, after_request
+from webob.dec import wsgify
 import logging
 
 log = logging.getLogger(__name__)
@@ -9,46 +11,26 @@ def timing_tween_factory(handler, registry):
 
     # if timing support is enabled, return a wrapper
     def timing_tween(request):
-        start = time.time()
         try:
-            response = handler(request)
+            response = get_response(request, handler=handler)
         except:
-            delta = time.time() - start
-            log_info = {
-                'REQUEST_PROCESS_TIME': round(delta, 4),
-                'REQUEST_METHOD': request.method,
-                'RESPONSE_CODE': 'exc'
-            }
-            log.debug('The request {REQUEST_METHOD} took '
-                      '{REQUEST_PROCESS_TIME} seconds with status code '
-                      '{RESPONSE_CODE}'.format(**log_info),
-                      extra=log_info)
             raise
-
-        else:
-            delta = time.time() - start
-            if 200 <= response.status_code < 300:
-                range_code = '2xx'
-            elif 300 <= response.status_code < 400:
-                range_code = '3xx'
-            elif 400 <= response.status_code < 500:
-                range_code = '4xx'
-            elif 500 <= response.status_code < 600:
-                range_code = '5xx'
-            else:
-                range_code = 'xxx'
-            log_info = {
-                'REQUEST_PROCESS_TIME': round(delta, 4),
-                'REQUEST_METHOD': request.method,
-                'RESPONSE_CODE': response.status_code,
-                'RANGE_CODE': range_code
-            }
-            log.debug('The request {REQUEST_METHOD} took '
-                      '{REQUEST_PROCESS_TIME} seconds with status code '
-                      '{RESPONSE_CODE}'.format(**log_info),
-                      extra=log_info)
         return response
     return timing_tween
+
+
+@wsgify.middleware
+def get_request_metrics(request, app):
+    try:
+        response = get_response(request, app=app)
+    except:
+        raise
+    return response
+
+
+def factory(global_config):
+    log.info('Init pyramidtiming middleware')
+    return get_request_metrics
 
 
 def includeme(config):
@@ -56,3 +38,9 @@ def includeme(config):
         log.info('Init timing tween factory')
         config.add_tween(
             'pyramidtiming.tween.timing_tween_factory')
+
+
+def setup_middleware(app):
+    app.before_request(before_request)
+    app.after_request(after_request)
+    log.info('Init timing middleware in flask app')
