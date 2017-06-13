@@ -1,5 +1,6 @@
 from pyramid.settings import asbool
-from .utils import get_response, before_request, after_request
+from .utils import get_response
+from .flask_middleware import before_request, after_request
 from webob.dec import wsgify
 import logging
 

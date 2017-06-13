@@ -17,9 +17,9 @@ requires = [
 ]
 
 extras_require = {
-    'pyramid': ['pyramid',],
-    'flask': ['flask',],
-    'test': test_requires
+    'pyramid': ['pyramid',] + requires,
+    'flask': ['flask',] + requires,
+    'test': test_requires + requires
 }
 
 entry_points = {

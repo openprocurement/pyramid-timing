@@ -1,7 +1,6 @@
 # coding=utf-8
 import time
 import logging
-from flask import g, request
 
 log = logging.getLogger(__name__)
 
@@ -47,18 +46,3 @@ def log_metrics(request, delta, response=None, endpoint=None):
               '{REQUEST_PROCESS_TIME} seconds with status code '
               '{RESPONSE_CODE}'.format(**log_info),
               extra=log_info)
-
-def before_request():
-    g.flask_request_start_time = time.time()
-
-
-def after_request(response):
-    if not hasattr(g, 'flask_request_start_time'):
-        return response
-
-    endpoint = str(request.endpoint)
-
-    delta = time.time() - g.flask_request_start_time
-    log_metrics(request, delta, response, endpoint)
-
-    return response

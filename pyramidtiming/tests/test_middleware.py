@@ -8,7 +8,7 @@ from flask import Flask, g, request
 from flask_testing import TestCase
 from webob.dec import wsgify
 from pyramidtiming.tween import get_request_metrics, factory, setup_middleware
-from pyramidtiming.utils import before_request, after_request
+from pyramidtiming.flask_middleware import before_request, after_request
 
 
 def app(request, status_code):
@@ -89,7 +89,7 @@ class TestFlaskTimingMiddleware(TestCase):
         self.webapp = app.test_client()
         return app
 
-    @mock.patch('pyramidtiming.utils.time')
+    @mock.patch('pyramidtiming.flask_middleware.time')
     def test_before_request(self, mock_time):
         mock_time.time.return_value = 1
         with self.app.app_context():
