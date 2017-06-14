@@ -7,8 +7,12 @@ import webtest
 from flask import Flask, g, request
 from flask_testing import TestCase
 from webob.dec import wsgify
-from pyramidtiming.tween import get_request_metrics, factory, setup_middleware
-from pyramidtiming.flask_middleware import before_request, after_request
+from pyramidtiming.tween import get_request_metrics, factory
+from pyramidtiming.flask_middleware import (
+    before_request,
+    after_request,
+    setup_middleware
+)
 
 
 def app(request, status_code):

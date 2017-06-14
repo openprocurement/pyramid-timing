@@ -1,6 +1,5 @@
 from pyramid.settings import asbool
 from .utils import get_response
-from .flask_middleware import before_request, after_request
 from webob.dec import wsgify
 import logging
 
@@ -38,9 +37,3 @@ def includeme(config):
         log.info('Init timing tween factory')
         config.add_tween(
             'pyramidtiming.tween.timing_tween_factory')
-
-
-def setup_middleware(app):
-    app.before_request(before_request)
-    app.after_request(after_request)
-    log.info('Init timing middleware in flask app')
