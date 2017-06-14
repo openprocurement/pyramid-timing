@@ -48,7 +48,7 @@ paste.filter_factory = pyramidtiming.tween:factory
 
 ```python
 from flask import Flask, request, g
-from pyramidtiming.tween import setup_middleware
+from pyramidtiming.flask_middleware import setup_middleware
 
 app = Flask(__name__)
 setup_middleware(app)
